@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Messanger</title>
+  </head>
+  <body>
+    <div id="signInModal" class="absolute w-screen h-screen bg-gray-700/90 flex justify-center items-center">
+        <form id="nameForm" class="flex flex-col gap-y-6 justify-center items-center w-9/12 max-w-sm bg-gray-100 rounded-lg p-3" autocomplete="off">
+            <h2 class="text-3xl">請輸入你的暱稱</h2>
+            <input type="text" name="name" class="w-full bg-gray-100 border-[2px] border-gray-300 px-2 py-1 text-xl text-center" />
+            <input type="submit" class="w-full p-2 bg-green-700 text-gray-50 rounded-lg cursor-pointer hover:bg-green-500 active:translate-x-[1px] active:translate-y-[1px]" value="開始聊天" />
+        </form>
+    </div>
+    <div
+      id="app"
+      class="h-screen w-screen bg-blue-800 flex justify-center items-center"
+    >
+      <div
+        id="ChatBox"
+        class="bg-gray-50 w-11/12 max-w-md rounded-xl shadow-lg p-4 space-y-3"
+      >
+        <div
+          id="messageBox"
+          class="
+            w-full
+            px-2
+            py-3
+            border-[1px] border-gray-200
+            rounded-xl
+            h-[350px]
+            space-y-2
+          "
+        >
+          <!-- <div class="flex flex-col">
+            <p id="name" class="text-sm text-gray-500">test01:</p>
+            <span id="message" class="pl-5">123456</span>
+          </div>
+          <div class="flex flex-col">
+            <p id="name" class="text-sm text-gray-500 text-right">me</p>
+            <span id="message" class="pr-5 text-right">123456</span>
+          </div>
+          <div class="flex justify-center">
+            <p class="text-sm text-gray-100 rounded-xl px-2 bg-gray-400">
+              <span id="name" class="font-semibold">test001</span>
+              <span id="status" class="">joins</span>
+              <span>the chat</span>
+            </p>
+          </div> -->
+        </div>
+        <form
+          id="messageInputer"
+          class="flex justify-between gap-2"
+          autocomplete="off"
+        >
+          <input
+            type="text"
+            name="messageInput"
+            class="
+              w-full
+              border-[1px] border-gray-200
+              rounded-md
+              px-2
+              py-1
+              break-all
+            "
+          />
+          <input
+            type="submit"
+            class="
+              rounded-md
+              bg-green-500
+              p-1
+              cursor-pointer
+              hover:bg-green-300
+              active:translate-y-[2px] active:translate-x-[1px]
+            "
+            value="SEND!"
+          />
+        </form>
+      </div>
+    </div>
+    <template id="ConversationFrom">
+      <div class="flex flex-col">
+        <p class="text-sm text-gray-500">
+          <span id="name">test01</span><span>:</span>
+        </p>
+        <span id="message" class="pl-5 break-words">123456</span>
+      </div>
+    </template>
+    <template id="ConversationTo">
+      <div class="flex flex-col">
+        <p id="name" class="text-sm text-gray-500 text-right">me</p>
+        <span id="message" class="pr-5 text-right break-words">123456</span>
+      </div>
+    </template>
+    <template id="joinNleave">
+      <div class="flex justify-center">
+        <p class="text-sm text-gray-100 rounded-xl px-2 bg-gray-400">
+          <span id="name" class="font-semibold">test001</span>
+          <span id="status" class="font-black">joins</span>
+          <span>the chat</span>
+        </p>
+      </div>
+    </template>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
