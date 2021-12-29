@@ -30,9 +30,7 @@ nameForm.addEventListener("submit", function (e) {
   );
   name.value = "";
   modal.classList.add("hidden");
-  ws = new WebSocket(
-    `${url}${window.localStorage.getItem("userToken")}`
-  );
+  ws = new WebSocket(`${url}${window.localStorage.getItem("userToken")}`);
   ws.onmessage = (e) => websocketOnmessage(e);
 });
 
@@ -44,8 +42,8 @@ messageInputer.addEventListener("submit", function (e) {
   e.preventDefault();
   const message = messageInputer["messageInput"];
   if (!message.value) return;
-  // testMessage(templateMessageTo, message.value);
-  // testMessage(templateMessageFrom, message.value, "test001");S
+  // renderMessage(templateMessageTo, message.value);
+  // renderMessage(templateMessageFrom, message.value, "test001");S
   ws.send(JSON.stringify({ message: message.value }));
   message.value = "";
 });
@@ -56,7 +54,7 @@ function autoScrollBox() {
   }
 }
 
-function testMessage(templateNode, message, username = "me") {
+function renderMessage(templateNode, message, username = "me") {
   const tmt = templateNode;
   tmt.content.querySelector("#message").innerText = message;
   tmt.content.querySelector("#name").innerText = username;
@@ -67,17 +65,33 @@ function testMessage(templateNode, message, username = "me") {
   // console.log(messageBox.clientHeight, messageBox.scrollHeight);
 }
 
+function renderJoinNLeavingMessage(username, status) {
+  const jnl = document.querySelector("#joinNleave").content;
+  jnl.querySelector("#name").innerText = username;
+  jnl.querySelector("#status").innerText = status;
+  const clone = document.importNode(jnl, true);
+  messageBox.appendChild(clone);
+  autoScrollBox();
+  messageBox.scrollTo(0, messageBox.scrollHeight);
+}
+
 function websocketOnmessage(event) {
-  console.log(event);
+  // console.log(event);
   const receiveDatas = JSON.parse(event.data);
   receiveDatas.forEach((receiveData) => {
+    if (receiveData.status) {
+      const token = window.atob(receiveData.client_token);
+      const user = token.split("-")[0];
+      renderJoinNLeavingMessage(user, receiveData.status == 'SIGNOUT' ? "leave" : "join")
+      return;
+    }
     if (receiveData.client_token == window.localStorage.getItem("userToken")) {
-      testMessage(templateMessageTo, receiveData.message);
+      renderMessage(templateMessageTo, receiveData.message);
       return;
     }
     const token = window.atob(receiveData.client_token);
     const user = token.split("-")[0];
-    console.log(user);
-    testMessage(templateMessageFrom, receiveData.message, user);
+    // console.log(user);
+    renderMessage(templateMessageFrom, receiveData.message, user);
   });
 }
