@@ -7,6 +7,8 @@ let ws = "";
 const modal = document.querySelector("#signInModal");
 const nameForm = document.querySelector("#nameForm");
 
+const url = "ws://127.0.0.1:8000/ws/"
+
 if (
   window.localStorage.getItem("userToken") &&
   window.localStorage.getItem("userName")
@@ -14,7 +16,7 @@ if (
   userName = window.localStorage.getItem("userName");
   userToken = window.localStorage.getItem("userToken");
   modal.classList.add("hidden");
-  ws = new WebSocket(`ws://127.0.0.1:8000/ws/${userToken}`);
+  ws = new WebSocket(`${url}${userToken}`);
   ws.onmessage = (e) => websocketOnmessage(e);
 }
 
@@ -29,7 +31,7 @@ nameForm.addEventListener("submit", function (e) {
   name.value = "";
   modal.classList.add("hidden");
   ws = new WebSocket(
-    `ws://127.0.0.1:8000/ws/${window.localStorage.getItem("userToken")}`
+    `${url}${window.localStorage.getItem("userToken")}`
   );
   ws.onmessage = (e) => websocketOnmessage(e);
 });
